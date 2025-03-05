@@ -2,7 +2,7 @@
 
 import { useWizardForm } from "../provider/wizard-provider";
 
-const steps = ['sender', 'receiver', 'pickup', 'destination', 'items'] as const;
+const steps = ['sender', 'receiver', 'pickup', 'destination', 'items', 'summary'] as const;
 type Step = (typeof steps)[number];
 
 export const useWizardSteps = () => {

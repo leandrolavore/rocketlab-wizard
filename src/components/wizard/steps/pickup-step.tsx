@@ -18,7 +18,7 @@ const PickupStep = () => {
   };
 
   return (
-    <Card className='min-w-96 min-h-[742px]'>
+    <Card className='min-w-96'>
       <CardHeader>
         <CardTitle>Pickup</CardTitle>
         <CardDescription>Enter pickup address</CardDescription>

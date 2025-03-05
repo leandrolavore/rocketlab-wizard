@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { useFormContext } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { useWizardSteps } from '../wizard/hooks/use-wizard-steps';
+import { Separator } from '../ui/separator';
 
 const CustomForm = ({ fields, onSubmit }: {
   fields: string[];
@@ -49,11 +50,12 @@ const CustomForm = ({ fields, onSubmit }: {
             )}
           />
         ))}
-
+        <Separator className="my-2" />
         <div className="flex justify-between mt-4">
           <Button
             type="button"
             variant="outline"
+            className="cursor-pointer"
             onClick={goToPreviousStep}
             disabled={currentStepIndex === 0}
           >
@@ -62,6 +64,7 @@ const CustomForm = ({ fields, onSubmit }: {
 
           <Button
             type="button"
+            className="cursor-pointer"
             onClick={goToNextStep}
           >
             {currentStepIndex === steps.length - 1 ? 'Finish' : 'Next'}

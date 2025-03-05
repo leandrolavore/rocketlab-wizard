@@ -16,7 +16,7 @@ const DestinationStep = () => {
   };
 
   return (
-    <Card className='min-w-96 min-h-[742px]'>
+    <Card className='min-w-96'>
       <CardHeader>
         <CardTitle>Destination</CardTitle>
         <CardDescription>Enter destination address</CardDescription>

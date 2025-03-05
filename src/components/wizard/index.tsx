@@ -7,6 +7,7 @@ import ReceiverStep from './steps/receiver-step';
 import PickupStep from './steps/pickup-step';
 import DestinationStep from './steps/detination-step';
 import ItemsStep from './steps/items-step';
+import { ItemsCartProvider } from './provider/items-cart-provider';
 
 const Wizard = () => {
   const { currentStep, currentStepIndex } = useWizardSteps();
@@ -18,7 +19,7 @@ const Wizard = () => {
       {currentStep === 'receiver' && <ReceiverStep />}
       {currentStep === 'pickup' && <PickupStep />}
       {currentStep === 'destination' && <DestinationStep />}
-      {currentStep === 'items' && <ItemsStep />}
+      {currentStep === 'items' && <ItemsCartProvider><ItemsStep /></ItemsCartProvider>}
     </div>
   )
 }
