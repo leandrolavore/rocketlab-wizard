@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from "react";
 import { useItemsCart } from "../provider/items-cart-provider";
 import { useWizardForm } from "../provider/wizard-provider";
 
@@ -7,15 +8,18 @@ const steps = ['sender', 'receiver', 'pickup', 'destination', 'items', 'summary'
 export type Step = (typeof steps)[number];
 
 export const useWizardSteps = () => {
-  const { currentStepIndex, setCurrentStepIndex, form } = useWizardForm();
+  const { currentStepIndex, setCurrentStepIndex, form, setValidSteps } = useWizardForm();
   const { selectedItems } = useItemsCart();
 
   const currentStep = steps[currentStepIndex];
 
   const goToNextStep = async () => {
     const isValid = await validateStep(currentStep);
+    console.log("🚀 ~ goToNextStep ~ currentStep:", currentStep)
 
     if (isValid) {
+      console.log("🚀 ~ goToNextStep ~ isValid:", isValid)
+      setValidSteps((prev: any) => ({ ...prev, [currentStep]: isValid }));
       setCurrentStepIndex((prev: number) => Math.min(prev + 1, steps.length - 1));
     }
   };
@@ -55,7 +59,7 @@ export const useWizardSteps = () => {
           'destination.country',
         ]);
       case 'items':
-        return selectedItems?.length;
+        return !!selectedItems?.length;
       case 'summary':
         return true;
     }
@@ -69,5 +73,6 @@ export const useWizardSteps = () => {
     goToPreviousStep,
     goBackToStart,
     goToStep,
+    validateStep,
   };
 };

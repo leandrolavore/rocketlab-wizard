@@ -36,6 +36,8 @@ type WizardContextType = {
   currentStepIndex: number;
   setCurrentStepIndex: React.Dispatch<React.SetStateAction<number>>;
   resetForm: () => void;
+  validSteps: any;
+  setValidSteps: any;
 };
 
 const WizardFormContext = createContext<WizardContextType | undefined>(undefined);
@@ -67,13 +69,30 @@ export const WizardProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [validSteps, setValidSteps] = useState<Record<string, boolean>>({
+    sender: true,
+    receiver: false,
+    pickup: false,
+    destination: false,
+    items: false,
+    summary: false
+  });
 
   function resetForm() {
     form.reset(initialFormValues);
   }
 
   return (
-    <WizardFormContext.Provider value={{ form, currentStepIndex, setCurrentStepIndex, resetForm }}>
+    <WizardFormContext.Provider
+      value={{
+        form,
+        currentStepIndex,
+        setCurrentStepIndex,
+        resetForm,
+        validSteps,
+        setValidSteps
+      }}
+    >
       <FormProvider {...form}>
         {children}
       </FormProvider>

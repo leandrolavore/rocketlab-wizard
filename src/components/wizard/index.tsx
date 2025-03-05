@@ -10,8 +10,10 @@ import ItemsStep from './steps/items-step';
 import SummaryStep from './steps/summary-step';
 import { Card } from '../ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { useWizardForm } from './provider/wizard-provider';
 
 const Wizard = () => {
+  const { validSteps } = useWizardForm();
   const { currentStep, goToStep } = useWizardSteps();
 
   const steps = [
@@ -27,17 +29,18 @@ const Wizard = () => {
     <Card className="flex flex-col px-4">
       <Tabs className='gap-6' defaultValue='sender' value={currentStep}>
         <TabsList aria-label="Wizard Steps" className="grid grid-cols-6 mx-6">
-          {steps.map((step, idx) => (
-            <TabsTrigger
+          {steps.map((step, idx) => {
+            return <TabsTrigger
               key={step.key}
               value={step.key}
               className={`text-sm ${currentStep === step.key ? 'font-bold' : ''} cursor-pointer`}
-              disabled={false}
+              disabled={!validSteps[step.key]}
               onClick={() => goToStep(idx)}
             >
               {step.label}
             </TabsTrigger>
-          ))}
+          }
+          )}
         </TabsList>
         <TabsContent value="sender">
           <SenderStep />
