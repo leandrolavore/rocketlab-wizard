@@ -17,32 +17,30 @@ const useItemsCartCore = () => {
 
   const VOLUMETRIC_DIVISOR = 6000;
 
-  function calculateVolume({
-    length,
-    height,
-    depth
-  }: { length: number; height: number; depth: number }) {
-    const volume = length * height * depth;
-    return parseFloat(volume.toFixed(2)); // volume in cm3
-  }
-
-  // Source: https://www.parcelhero.com/en-gb/support/volumetric-weight-calculator
-  function calculateVolumetricWeight({
-    length,
-    height,
-    depth
-  }: { length: number; height: number; depth: number }) {
-    const volume = calculateVolume({ length, height, depth });
-    const volumetricWeight = volume / VOLUMETRIC_DIVISOR;
-    return parseFloat(volumetricWeight.toFixed(2)); // Volumetric weight in kg
-  }
-
   const stock: FreightItem[] = [
     { id: 1, name: 'Item 1', length: 120, height: 100, depth: 30 },
     { id: 2, name: 'Item 2', length: 80, height: 60, depth: 40 },
     { id: 3, name: 'Item 3', length: 200, height: 50, depth: 50 },
     { id: 4, name: 'Item 4', length: 150, height: 90, depth: 60 },
   ];
+
+  function calculateVolume({ length, height, depth }: {
+    length: number;
+    height: number;
+    depth: number;
+  }) {
+    return length * height * depth;
+  }
+
+  // Source: https://www.parcelhero.com/en-gb/support/volumetric-weight-calculator
+  function calculateVolumetricWeight({ length, height, depth }: {
+    length: number;
+    height: number;
+    depth: number;
+  }) {
+    return calculateVolume({ length, height, depth }) / VOLUMETRIC_DIVISOR;
+  }
+
 
   function isItemInOrder(item: FreightItem) {
     return selectedItems.some(selected => selected.id === item.id);
@@ -62,24 +60,46 @@ const useItemsCartCore = () => {
   }
 
   function calculateTotalVolume() {
-    return selectedItems.reduce((sum, item) => sum + calculateVolume(item), 0).toFixed(2);
+    return selectedItems.reduce((sum, item) => sum + calculateVolume(item), 0);
   }
 
   function calculateTotalVolumetricWeight() {
-    return selectedItems.reduce((sum, item) => sum + calculateVolumetricWeight(item), 0).toFixed(2);
+    return selectedItems.reduce((sum, item) => sum + calculateVolumetricWeight(item), 0);
   }
 
+  function formatNumber(value: number) {
+    return new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+  }
+
+  function getFormattedTotalVolume() {
+    return formatNumber(calculateTotalVolume());
+  }
+
+  function getFormattedTotalVolumetricWeight() {
+    return formatNumber(calculateTotalVolumetricWeight());
+  }
+
+  function getFormattedVolume(item: FreightItem) {
+    return formatNumber(calculateVolume(item));
+  }
+
+  function getFormattedVolumetricWeight(item: FreightItem) {
+    return formatNumber(calculateVolumetricWeight(item));
+  }
 
   return {
     stock,
-    calculateVolume,
-    calculateVolumetricWeight,
     selectedItems,
     addItemToOrder,
     removeItemFromOrder,
     isItemInOrder,
-    calculateTotalVolume,
-    calculateTotalVolumetricWeight
+    getFormattedTotalVolume,
+    getFormattedTotalVolumetricWeight,
+    getFormattedVolume,
+    getFormattedVolumetricWeight
   };
 };
 

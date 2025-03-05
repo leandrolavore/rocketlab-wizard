@@ -15,8 +15,12 @@ import { useWizardSteps } from '../hooks/use-wizard-steps';
 import { FreightItem, useItemsCart } from '../provider/items-cart-provider';
 
 const ItemsStep = () => {
-  const { goToPreviousStep, steps, currentStepIndex } = useWizardSteps();
-  const { stock, calculateTotalVolume, calculateTotalVolumetricWeight } = useItemsCart();
+  const { goToPreviousStep, goToNextStep, steps, currentStepIndex } = useWizardSteps();
+  const {
+    stock,
+    getFormattedTotalVolume,
+    getFormattedTotalVolumetricWeight
+  } = useItemsCart();
 
   return (
     <Card className='min-w-96 min-h-[720px]'>
@@ -30,8 +34,8 @@ const ItemsStep = () => {
         </div>
         <Separator className="my-2" />
         <div className="flex flex-col">
-          <p>Total Volume: {calculateTotalVolume()}</p>
-          <p>Volumetric weight: {calculateTotalVolumetricWeight()}</p>
+          <p>Total Volume: {getFormattedTotalVolume()}cm³</p>
+          <p>Volumetric weight: {getFormattedTotalVolumetricWeight()}kg</p>
         </div>
         <Separator className="my-2" />
         <div className="flex justify-between mt-4">
@@ -45,7 +49,7 @@ const ItemsStep = () => {
           </Button>
           <Button
             type="button"
-            onClick={() => { }}
+            onClick={goToNextStep}
           >
             {currentStepIndex === steps.length - 1 ? 'Finish' : 'Next'}
           </Button>
@@ -57,11 +61,11 @@ const ItemsStep = () => {
 
 const Item = ({ item }: { item: FreightItem }) => {
   const {
-    calculateVolume,
-    calculateVolumetricWeight,
     isItemInOrder,
     addItemToOrder,
-    removeItemFromOrder
+    removeItemFromOrder,
+    getFormattedVolume,
+    getFormattedVolumetricWeight
   } = useItemsCart();
 
   const isInOrder = isItemInOrder(item);
@@ -81,8 +85,8 @@ const Item = ({ item }: { item: FreightItem }) => {
         <p className="text-sm">Height: {item.height}cm</p>
         <p className="text-sm">Depth: {item.depth}cm</p>
         <Separator className="my-1" />
-        <p className="text-sm">Volume: {calculateVolume(item)}cm</p>
-        <p className="text-sm">Volumetric weight: {calculateVolumetricWeight(item)}kg</p>
+        <p className="text-sm">Volume: {getFormattedVolume(item)}cm³</p>
+        <p className="text-sm">Volumetric weight: {getFormattedVolumetricWeight(item)}kg</p>
       </div>
     </Card>
   )

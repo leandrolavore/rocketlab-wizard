@@ -15,11 +15,12 @@ const Wizard = () => {
 
   return (
     <div className="flex flex-col space-y-6">
-      {currentStep === 'sender' && <SenderStep />}
+      {/* {currentStep === 'sender' && <SenderStep />}
       {currentStep === 'receiver' && <ReceiverStep />}
       {currentStep === 'pickup' && <PickupStep />}
       {currentStep === 'destination' && <DestinationStep />}
-      {currentStep === 'items' && <ItemsCartProvider><ItemsStep /></ItemsCartProvider>}
+      {currentStep === 'items' && <ItemsCartProvider><ItemsStep /></ItemsCartProvider>} */}
+      <ItemsCartProvider><ItemsStep /></ItemsCartProvider>
     </div>
   )
 }
