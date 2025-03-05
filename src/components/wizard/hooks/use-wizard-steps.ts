@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from "react";
 import { useItemsCart } from "../provider/items-cart-provider";
 import { useWizardForm } from "../provider/wizard-provider";
 
@@ -19,7 +18,7 @@ export const useWizardSteps = () => {
 
     if (isValid) {
       console.log("🚀 ~ goToNextStep ~ isValid:", isValid)
-      setValidSteps((prev: any) => ({ ...prev, [currentStep]: isValid }));
+      setValidSteps((prev: Record<string, boolean>) => ({ ...prev, [currentStep]: isValid }));
       setCurrentStepIndex((prev: number) => Math.min(prev + 1, steps.length - 1));
     }
   };

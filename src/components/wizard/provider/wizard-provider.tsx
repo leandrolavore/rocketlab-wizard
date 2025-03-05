@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createContext, useContext, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
 import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -36,8 +36,8 @@ type WizardContextType = {
   currentStepIndex: number;
   setCurrentStepIndex: React.Dispatch<React.SetStateAction<number>>;
   resetForm: () => void;
-  validSteps: any;
-  setValidSteps: any;
+  validSteps: Record<string, boolean>;
+  setValidSteps: Dispatch<SetStateAction<Record<string, boolean>>>
 };
 
 const WizardFormContext = createContext<WizardContextType | undefined>(undefined);
