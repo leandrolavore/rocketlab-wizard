@@ -35,46 +35,47 @@ const SummaryStep = () => {
   const [progress, setProgress] = useState(0);
   const [orderCompleted, setOrderCompleted] = useState(false);
 
-  const sendOrder = async () => {
-    setLoading(true);
-    setProgress(0)
-
-    try {
-      const fakeOrderProcess = () => {
+  const processOrderSimulation = async () => {
+    return new Promise<void>((resolve) => {
+      const interval = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
             clearInterval(interval);
-            setLoading(false);
             setOrderCompleted(true);
-
             resetForm();
             clearCart();
+            resolve();
+
             return 100;
           }
+
           return prev + 20;
         });
-      };
+      }, 500);
+    });
+  };
 
-      const interval = setInterval(fakeOrderProcess, 500);
-    }
-    catch (err) {
-      console.log("🚀 ~ sendOrder ~ err:", err)
+  const sendOrder = async () => {
+    setLoading(true);
+    setProgress(0);
+
+    try {
+      await processOrderSimulation();
+    } catch (err) {
+      console.error("🚀 ~ sendOrder ~ err:", err);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   if (orderCompleted) {
     return (
       <div className='min-w-96'>
-        <CardHeader>
-          <CardTitle>Order Completed</CardTitle>
-          <CardDescription>Your order has been submitted successfully!</CardDescription>
-        </CardHeader>
-        <CardContent className="text-center space-y-4">
-          <p className="text-green-600 font-semibold">✅ Your order has been processed!</p>
+        <CardContent className="text-center space-y-4 my-8">
+          <p className="text-green-600 font-semibold text-2xl">✅ Your order has been processed!</p>
           <Button
             type="button"
+            className="cursor-pointer"
             onClick={goBackToStart}
           >
             Back to Start
@@ -176,8 +177,9 @@ const SummaryStep = () => {
             type="button"
             className="cursor-pointer"
             onClick={sendOrder}
+            disabled={loading}
           >
-            Finish
+            {loading ? 'Processing...' : 'Finish'}
           </Button>
         </div>
       </CardContent>
