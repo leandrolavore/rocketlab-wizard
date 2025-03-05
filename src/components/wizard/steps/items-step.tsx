@@ -18,12 +18,14 @@ const ItemsStep = () => {
   const { goToPreviousStep, goToNextStep, currentStepIndex } = useWizardSteps();
   const {
     stock,
+    selectedItems,
     getFormattedTotalVolume,
-    getFormattedTotalVolumetricWeight
+    getFormattedTotalVolumetricWeight,
+    getPriceTotal
   } = useItemsCart();
 
   return (
-    <Card className='min-w-96 min-h-[720px]'>
+    <div className='min-w-96 min-h-[720px]'>
       <CardHeader>
         <CardTitle>Pickup</CardTitle>
         <CardDescription>Enter pickup address</CardDescription>
@@ -36,6 +38,7 @@ const ItemsStep = () => {
         <div className="flex flex-col">
           <p>Total Volume: {getFormattedTotalVolume()}cm³</p>
           <p>Volumetric weight: {getFormattedTotalVolumetricWeight()}kg</p>
+          <p>Total Price: {getPriceTotal()} AUD</p>
         </div>
         <Separator className="my-2" />
         <div className="flex justify-between mt-4">
@@ -51,13 +54,14 @@ const ItemsStep = () => {
           <Button
             type="button"
             className='cursor-pointer'
+            disabled={!selectedItems?.length}
             onClick={goToNextStep}
           >
             Next
           </Button>
         </div>
       </CardContent>
-    </Card>
+    </div>
   )
 }
 

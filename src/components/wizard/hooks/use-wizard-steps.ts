@@ -1,19 +1,19 @@
 'use client';
 
+import { useItemsCart } from "../provider/items-cart-provider";
 import { useWizardForm } from "../provider/wizard-provider";
 
 const steps = ['sender', 'receiver', 'pickup', 'destination', 'items', 'summary'] as const;
-type Step = (typeof steps)[number];
+export type Step = (typeof steps)[number];
 
 export const useWizardSteps = () => {
   const { currentStepIndex, setCurrentStepIndex, form } = useWizardForm();
+  const { selectedItems } = useItemsCart();
 
   const currentStep = steps[currentStepIndex];
-  console.log("🚀 ~ useWizardSteps ~ currentStep:", currentStep)
 
   const goToNextStep = async () => {
     const isValid = await validateStep(currentStep);
-    console.log("🚀 ~ goToNextStep ~ isValid:", isValid)
 
     if (isValid) {
       setCurrentStepIndex((prev: number) => Math.min(prev + 1, steps.length - 1));
@@ -26,6 +26,10 @@ export const useWizardSteps = () => {
 
   const goBackToStart = () => {
     setCurrentStepIndex(0);
+  }
+
+  const goToStep = (val: number) => {
+    setCurrentStepIndex(val);
   }
 
   const validateStep = async (step: Step) => {
@@ -50,8 +54,8 @@ export const useWizardSteps = () => {
           'destination.postal_code',
           'destination.country',
         ]);
-      case 'items': // may be able to do with cart
-        return true;
+      case 'items':
+        return selectedItems?.length;
       case 'summary':
         return true;
     }
@@ -63,6 +67,7 @@ export const useWizardSteps = () => {
     currentStepIndex,
     goToNextStep,
     goToPreviousStep,
-    goBackToStart
+    goBackToStart,
+    goToStep,
   };
 };

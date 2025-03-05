@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -12,7 +11,7 @@ import CustomForm from '@/components/lib/custom-form';
 
 const ReceiverStep = () => {
   return (
-    <Card className='min-w-96'>
+    <div className='min-w-96'>
       <CardHeader>
         <CardTitle>Receiver</CardTitle>
         <CardDescription>Enter receiver details</CardDescription>
@@ -20,7 +19,7 @@ const ReceiverStep = () => {
       <CardContent>
         <CustomForm fields={['receiver.name', 'receiver.email']} />
       </CardContent>
-    </Card>
+    </div>
   )
 }
 

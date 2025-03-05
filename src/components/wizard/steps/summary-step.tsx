@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -21,7 +20,8 @@ const SummaryStep = () => {
     getFormattedTotalVolume,
     getFormattedTotalVolumetricWeight,
     getFormattedVolume,
-    getFormattedVolumetricWeight
+    getFormattedVolumetricWeight,
+    getPriceTotal
   } = useItemsCart();
 
   const { currentStepIndex, goToPreviousStep, goBackToStart } = useWizardSteps();
@@ -66,7 +66,7 @@ const SummaryStep = () => {
 
   if (orderCompleted) {
     return (
-      <Card className='min-w-96'>
+      <div className='min-w-96'>
         <CardHeader>
           <CardTitle>Order Completed</CardTitle>
           <CardDescription>Your order has been submitted successfully!</CardDescription>
@@ -80,12 +80,12 @@ const SummaryStep = () => {
             Back to Start
           </Button>
         </CardContent>
-      </Card>
+      </div>
     );
   }
 
   return (
-    <Card className='min-w-96'>
+    <div className='min-w-96'>
       <CardHeader>
         <CardTitle>Order Summary</CardTitle>
         <CardDescription>Review your order details before submitting.</CardDescription>
@@ -152,6 +152,7 @@ const SummaryStep = () => {
           <h3 className="font-bold text-lg">Totals</h3>
           <p><strong>Total Volume:</strong> {getFormattedTotalVolume()} cm<sup>3</sup></p>
           <p><strong>Total Volumetric Weight:</strong> {getFormattedTotalVolumetricWeight()} kg</p>
+          <p><strong>Total Price:</strong> {getPriceTotal()} AUD</p>
         </section>
         <Separator className="my-2" />
         {loading
@@ -180,7 +181,7 @@ const SummaryStep = () => {
           </Button>
         </div>
       </CardContent>
-    </Card>
+    </div>
   )
 }
 

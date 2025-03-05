@@ -38,7 +38,7 @@ const CustomForm = ({ fields }: {
           control={form.control}
           name={key as string}
           render={({ field }) => (
-            <FormItem>
+            <FormItem className='my-2'>
               <FormLabel>{prettifyLabel(key)}</FormLabel>
               <FormControl>
                 <Input {...field} />

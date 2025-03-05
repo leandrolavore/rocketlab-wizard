@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -12,7 +11,7 @@ import CustomForm from '@/components/lib/custom-form';
 
 const DestinationStep = () => {
   return (
-    <Card className='min-w-96'>
+    <div className='min-w-96'>
       <CardHeader>
         <CardTitle>Destination</CardTitle>
         <CardDescription>Enter destination address</CardDescription>
@@ -28,7 +27,7 @@ const DestinationStep = () => {
           ]}
         />
       </CardContent>
-    </Card>
+    </div>
   )
 }
 

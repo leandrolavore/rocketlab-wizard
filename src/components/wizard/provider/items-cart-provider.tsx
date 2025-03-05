@@ -16,6 +16,7 @@ const useItemsCartCore = () => {
   const [selectedItems, setSelectedItems] = useState<FreightItem[]>([]);
 
   const VOLUMETRIC_DIVISOR = 6000;
+  const PRICE_CENTS_PER_KG = 400;
 
   const stock: FreightItem[] = [
     { id: 1, name: 'Item 1', length: 120, height: 100, depth: 30 },
@@ -94,6 +95,14 @@ const useItemsCartCore = () => {
     setSelectedItems([]);
   }
 
+  function getPriceTotal() {
+    const volumetricWeight = calculateTotalVolumetricWeight();
+    const totalCents = volumetricWeight * PRICE_CENTS_PER_KG;
+    const totalDollars = totalCents / 100;
+
+    return formatNumber(totalDollars);
+  }
+
   return {
     stock,
     selectedItems,
@@ -104,7 +113,8 @@ const useItemsCartCore = () => {
     getFormattedTotalVolumetricWeight,
     getFormattedVolume,
     getFormattedVolumetricWeight,
-    clearCart
+    clearCart,
+    getPriceTotal
   };
 };
 
