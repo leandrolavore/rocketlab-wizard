@@ -11,6 +11,7 @@ import SummaryStep from './steps/summary-step';
 import { Card } from '../ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { useWizardForm } from './provider/wizard-provider';
+import { AiOutlineCheck } from 'react-icons/ai';
 
 const Wizard = () => {
   const { validSteps } = useWizardForm();
@@ -30,14 +31,21 @@ const Wizard = () => {
       <Tabs className='gap-6' defaultValue='sender' value={currentStep}>
         <TabsList aria-label="Wizard Steps" className="grid grid-cols-6 mx-6">
           {steps.map((step, idx) => {
+            const isComplete = validSteps[step.key];
+            const isFirstStep = idx === 0;
+            const prevStepKey = steps[idx - 1]?.key;
+            const prevStepComplete = isFirstStep || (prevStepKey && validSteps[prevStepKey]);
+            const isDisabled = !isComplete && !prevStepComplete;
+
             return <TabsTrigger
               key={step.key}
               value={step.key}
               className={`text-sm ${currentStep === step.key ? 'font-bold' : ''} cursor-pointer`}
-              disabled={!validSteps[step.key]}
+              disabled={isDisabled}
               onClick={() => goToStep(idx)}
             >
               {step.label}
+              {isComplete && <AiOutlineCheck className="text-green-600" />}
             </TabsTrigger>
           }
           )}

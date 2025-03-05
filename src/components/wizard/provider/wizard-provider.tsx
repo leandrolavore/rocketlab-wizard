@@ -62,7 +62,7 @@ const initialFormValues: WizardFormData = {
 };
 
 const initialStepValues = {
-  sender: true,
+  sender: false,
   receiver: false,
   pickup: false,
   destination: false,

@@ -14,10 +14,8 @@ export const useWizardSteps = () => {
 
   const goToNextStep = async () => {
     const isValid = await validateStep(currentStep);
-    console.log("🚀 ~ goToNextStep ~ currentStep:", currentStep)
 
     if (isValid) {
-      console.log("🚀 ~ goToNextStep ~ isValid:", isValid)
       setValidSteps((prev: Record<string, boolean>) => ({ ...prev, [currentStep]: isValid }));
       setCurrentStepIndex((prev: number) => Math.min(prev + 1, steps.length - 1));
     }
