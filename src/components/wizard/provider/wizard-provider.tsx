@@ -61,6 +61,15 @@ const initialFormValues: WizardFormData = {
   },
 };
 
+const initialStepValues = {
+  sender: true,
+  receiver: false,
+  pickup: false,
+  destination: false,
+  items: false,
+  summary: false
+}
+
 export const WizardProvider = ({ children }: { children: React.ReactNode }) => {
   const form = useForm<WizardFormData>({
     resolver: zodResolver(wizardSchema),
@@ -69,17 +78,11 @@ export const WizardProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [validSteps, setValidSteps] = useState<Record<string, boolean>>({
-    sender: true,
-    receiver: false,
-    pickup: false,
-    destination: false,
-    items: false,
-    summary: false
-  });
+  const [validSteps, setValidSteps] = useState<Record<string, boolean>>(initialStepValues);
 
   function resetForm() {
     form.reset(initialFormValues);
+    setValidSteps(initialStepValues);
   }
 
   return (

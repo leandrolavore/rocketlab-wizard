@@ -42,8 +42,6 @@ const SummaryStep = () => {
           if (prev >= 100) {
             clearInterval(interval);
             setOrderCompleted(true);
-            resetForm();
-            clearCart();
             resolve();
 
             return 100;
@@ -61,6 +59,8 @@ const SummaryStep = () => {
 
     try {
       await processOrderSimulation();
+      resetForm();
+      clearCart();
     } catch (err) {
       console.error("🚀 ~ sendOrder ~ err:", err);
     } finally {
