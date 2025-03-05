@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -13,10 +12,6 @@ import CustomForm from '@/components/lib/custom-form';
 
 
 const PickupStep = () => {
-  const addPickupLocation = (val: { [x: string]: string | number; }) => {
-    console.log("🚀 ~ addSender ~ val:", val);
-  };
-
   return (
     <Card className='min-w-96'>
       <CardHeader>
@@ -32,11 +27,8 @@ const PickupStep = () => {
             'pickup.postal_code',
             'pickup.country',
           ]}
-          onSubmit={addPickupLocation} />
+        />
       </CardContent>
-      {/* <CardFooter>
-        <p>Card Footer</p>
-      </CardFooter> */}
     </Card>
   )
 }

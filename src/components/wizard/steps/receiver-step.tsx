@@ -11,10 +11,6 @@ import {
 import CustomForm from '@/components/lib/custom-form';
 
 const ReceiverStep = () => {
-  const addReceiver = (val: { [x: string]: string | number; }) => {
-    console.log("🚀 ~ addReceiver ~ val:", val);
-  };
-
   return (
     <Card className='min-w-96'>
       <CardHeader>
@@ -22,9 +18,7 @@ const ReceiverStep = () => {
         <CardDescription>Enter receiver details</CardDescription>
       </CardHeader>
       <CardContent>
-        <CustomForm
-          fields={['receiver.name', 'receiver.email']}
-          onSubmit={addReceiver} />
+        <CustomForm fields={['receiver.name', 'receiver.email']} />
       </CardContent>
     </Card>
   )

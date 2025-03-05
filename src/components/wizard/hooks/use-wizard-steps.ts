@@ -9,9 +9,11 @@ export const useWizardSteps = () => {
   const { currentStepIndex, setCurrentStepIndex, form } = useWizardForm();
 
   const currentStep = steps[currentStepIndex];
+  console.log("🚀 ~ useWizardSteps ~ currentStep:", currentStep)
 
   const goToNextStep = async () => {
     const isValid = await validateStep(currentStep);
+    console.log("🚀 ~ goToNextStep ~ isValid:", isValid)
 
     if (isValid) {
       setCurrentStepIndex((prev: number) => Math.min(prev + 1, steps.length - 1));
@@ -21,6 +23,10 @@ export const useWizardSteps = () => {
   const goToPreviousStep = () => {
     setCurrentStepIndex((prev: number) => Math.max(prev - 1, 0));
   };
+
+  const goBackToStart = () => {
+    setCurrentStepIndex(0);
+  }
 
   const validateStep = async (step: Step) => {
     switch (step) {
@@ -44,6 +50,10 @@ export const useWizardSteps = () => {
           'destination.postal_code',
           'destination.country',
         ]);
+      case 'items': // may be able to do with cart
+        return true;
+      case 'summary':
+        return true;
     }
   };
 
@@ -52,6 +62,7 @@ export const useWizardSteps = () => {
     currentStep,
     currentStepIndex,
     goToNextStep,
-    goToPreviousStep
+    goToPreviousStep,
+    goBackToStart
   };
 };

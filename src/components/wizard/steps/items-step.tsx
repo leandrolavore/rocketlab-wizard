@@ -15,7 +15,7 @@ import { useWizardSteps } from '../hooks/use-wizard-steps';
 import { FreightItem, useItemsCart } from '../provider/items-cart-provider';
 
 const ItemsStep = () => {
-  const { goToPreviousStep, goToNextStep, steps, currentStepIndex } = useWizardSteps();
+  const { goToPreviousStep, goToNextStep, currentStepIndex } = useWizardSteps();
   const {
     stock,
     getFormattedTotalVolume,
@@ -42,6 +42,7 @@ const ItemsStep = () => {
           <Button
             type="button"
             variant="outline"
+            className='cursor-pointer'
             onClick={goToPreviousStep}
             disabled={currentStepIndex === 0}
           >
@@ -49,9 +50,10 @@ const ItemsStep = () => {
           </Button>
           <Button
             type="button"
+            className='cursor-pointer'
             onClick={goToNextStep}
           >
-            {currentStepIndex === steps.length - 1 ? 'Finish' : 'Next'}
+            Next
           </Button>
         </div>
       </CardContent>

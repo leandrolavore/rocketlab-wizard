@@ -11,10 +11,6 @@ import {
 import CustomForm from '@/components/lib/custom-form';
 
 const DestinationStep = () => {
-  const addDestinationLocation = (val: { [x: string]: string | number; }) => {
-    console.log("🚀 ~ addSender ~ val:", val);
-  };
-
   return (
     <Card className='min-w-96'>
       <CardHeader>
@@ -30,7 +26,7 @@ const DestinationStep = () => {
             'destination.postal_code',
             'destination.country',
           ]}
-          onSubmit={addDestinationLocation} />
+        />
       </CardContent>
     </Card>
   )

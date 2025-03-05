@@ -90,6 +90,10 @@ const useItemsCartCore = () => {
     return formatNumber(calculateVolumetricWeight(item));
   }
 
+  function clearCart() {
+    setSelectedItems([]);
+  }
+
   return {
     stock,
     selectedItems,
@@ -99,7 +103,8 @@ const useItemsCartCore = () => {
     getFormattedTotalVolume,
     getFormattedTotalVolumetricWeight,
     getFormattedVolume,
-    getFormattedVolumetricWeight
+    getFormattedVolumetricWeight,
+    clearCart
   };
 };
 

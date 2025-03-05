@@ -35,37 +35,45 @@ type WizardContextType = {
   form: UseFormReturn<WizardFormData>;
   currentStepIndex: number;
   setCurrentStepIndex: React.Dispatch<React.SetStateAction<number>>;
+  resetForm: () => void;
 };
 
 const WizardFormContext = createContext<WizardContextType | undefined>(undefined);
 
+const initialFormValues: WizardFormData = {
+  sender: { name: '', email: '' },
+  receiver: { name: '', email: '' },
+  pickup: {
+    address_line_1: '',
+    city: '',
+    state: '',
+    postal_code: '',
+    country: '',
+  },
+  destination: {
+    address_line_1: '',
+    city: '',
+    state: '',
+    postal_code: '',
+    country: '',
+  },
+};
+
 export const WizardProvider = ({ children }: { children: React.ReactNode }) => {
   const form = useForm<WizardFormData>({
     resolver: zodResolver(wizardSchema),
-    defaultValues: {
-      sender: { name: '', email: '' },
-      receiver: { name: '', email: '' },
-      pickup: {
-        address_line_1: '',
-        city: '',
-        state: '',
-        postal_code: '',
-        country: '',
-      },
-      destination: {
-        address_line_1: '',
-        city: '',
-        state: '',
-        postal_code: '',
-        country: '',
-      },
-    },
+    defaultValues: initialFormValues,
     mode: 'onTouched',
   });
+
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
+  function resetForm() {
+    form.reset(initialFormValues);
+  }
+
   return (
-    <WizardFormContext.Provider value={{ form, currentStepIndex, setCurrentStepIndex }}>
+    <WizardFormContext.Provider value={{ form, currentStepIndex, setCurrentStepIndex, resetForm }}>
       <FormProvider {...form}>
         {children}
       </FormProvider>
