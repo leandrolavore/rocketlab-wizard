@@ -27,9 +27,19 @@ const Wizard = () => {
   ];
 
   return (
-    <Card className="flex flex-col px-4">
+    <Card className="flex flex-col px-4 mx-4">
       <Tabs className='gap-6' defaultValue='sender' value={currentStep}>
-        <TabsList aria-label="Wizard Steps" className="grid grid-cols-6 mx-6">
+        <TabsList
+          aria-label="Wizard Steps"
+          className="
+            mx-6 grid
+            h-auto
+            grid-cols-3 md:grid-cols-6
+            text-xs md:text-sm
+            bg-muted/50
+            rounded-lg
+          "
+        >
           {steps.map((step, idx) => {
             const isComplete = validSteps[step.key];
             const isFirstStep = idx === 0;
