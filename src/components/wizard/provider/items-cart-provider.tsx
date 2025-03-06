@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState } from "react";
+export const PRICE_CENTS_PER_KG = 400;
 
 export type FreightItem = {
   id: number;
@@ -27,7 +28,6 @@ const useItemsCartCore = () => {
   const [order, setOrder] = useState(emptyOrder);
 
   const VOLUMETRIC_DIVISOR = 6000;
-  const PRICE_CENTS_PER_KG = 400;
 
   const stock: FreightItem[] = [
     { id: 1, name: 'Item 1', length: 120, height: 100, depth: 30 },
@@ -138,6 +138,7 @@ const useItemsCartCore = () => {
     getFormattedVolumetricWeight,
     getFormattedPriceTotal,
     clearCart,
+    calculateVolumetricWeight
   };
 };
 
