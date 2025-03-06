@@ -26,6 +26,7 @@ const PickupStep = () => {
             'pickup.postal_code',
             'pickup.country',
           ]}
+          isAddress={true}
         />
       </CardContent>
     </div>
