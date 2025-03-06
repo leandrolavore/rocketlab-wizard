@@ -142,6 +142,7 @@ const SummaryStep = () => {
                 <p>Depth: {item.depth} cm</p>
                 <p>Volume: {getFormattedVolume(item)} cm<sup>3</sup></p>
                 <p>Volumetric Weight: {getFormattedVolumetricWeight(item)} kg</p>
+                <p>Price: {getFormattedVolumetricWeight(item)} kg</p>
               </li>
             ))}
           </ul>

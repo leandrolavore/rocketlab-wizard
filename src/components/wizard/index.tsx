@@ -12,6 +12,7 @@ import { Card } from '../ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { useWizardForm } from './provider/wizard-provider';
 import { AiOutlineCheck } from 'react-icons/ai';
+import { motion } from "motion/react";
 
 const Wizard = () => {
   const { validSteps } = useWizardForm();
@@ -27,7 +28,7 @@ const Wizard = () => {
   ];
 
   return (
-    <Card className="flex flex-col px-4 mx-4">
+    <Card className="flex flex-col px-4 mx-4 max-h-9/10 overflow-y-auto">
       <Tabs className='gap-6' defaultValue='sender' value={currentStep}>
         <TabsList
           aria-label="Wizard Steps"
@@ -61,25 +62,74 @@ const Wizard = () => {
           )}
         </TabsList>
         <TabsContent value="sender">
-          <SenderStep />
+          <motion.div
+            key="sender"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <SenderStep />
+          </motion.div>
         </TabsContent>
         <TabsContent value="receiver">
-          <ReceiverStep />
+          <motion.div
+            key="receiver"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+
+            <ReceiverStep />
+          </motion.div>
         </TabsContent>
         <TabsContent value="pickup">
-          <PickupStep />
+          <motion.div
+            key="pickup"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <PickupStep />
+          </motion.div>
         </TabsContent>
         <TabsContent value="destination">
-          <DestinationStep />
+          <motion.div
+            key="destination"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <DestinationStep />
+          </motion.div>
         </TabsContent>
         <TabsContent value="items">
-          <ItemsStep />
+          <motion.div
+            key="items"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ItemsStep />
+          </motion.div>
         </TabsContent>
         <TabsContent value="summary">
-          <SummaryStep />
+          <motion.div
+            key="summary  "
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <SummaryStep />
+          </motion.div>
         </TabsContent>
       </Tabs>
-    </Card>
+    </Card >
   )
 }
 

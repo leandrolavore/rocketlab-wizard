@@ -36,9 +36,9 @@ const ItemsStep = () => {
         </div>
         <Separator className="my-2" />
         <div className="flex flex-col">
-          <p>Total Volume: {getFormattedTotalVolume()}cm³</p>
-          <p>Volumetric weight: {getFormattedTotalVolumetricWeight()}kg</p>
-          <p>Total Freigth Price: {getPriceTotal()} AUD</p>
+          <p><strong>Total Volume:</strong> {getFormattedTotalVolume()}cm³</p>
+          <p><strong>Volumetric weight:</strong>  {getFormattedTotalVolumetricWeight()}kg</p>
+          <p><strong>Total Freigth Price:</strong> {getPriceTotal()} AUD</p>
         </div>
         <Separator className="my-2" />
         <div className="flex justify-between mt-4">
