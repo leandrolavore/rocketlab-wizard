@@ -16,9 +16,10 @@ import { useWizardSteps } from '../wizard/hooks/use-wizard-steps';
 import { Separator } from '../ui/separator';
 import AutoCompleteInput from './auto-complete-input';
 
-const CustomForm = ({ fields, isAddress = false }: {
+const CustomForm = ({ fields, isAddress = false, onSelectedAddress }: {
   fields: string[];
   isAddress?: boolean;
+  onSelectedAddress: (address: Record<string, string>) => void;
 }) => {
   const form = useFormContext();
   const { currentStepIndex, steps, goToNextStep, goToPreviousStep } = useWizardSteps();
@@ -41,15 +42,7 @@ const CustomForm = ({ fields, isAddress = false }: {
         render={() => (
           <FormItem className='my-2'>
             <FormLabel>Search Address</FormLabel>
-            <AutoCompleteInput
-              onSelectAddress={(address) => {
-                form.setValue('pickup.address_line_1', address.line1);
-                form.setValue('pickup.city', address.city);
-                form.setValue('pickup.state', address.state);
-                form.setValue('pickup.postal_code', address.postalCode);
-                form.setValue('pickup.country', address.country);
-              }}
-            />
+            <AutoCompleteInput onSelectAddress={onSelectedAddress} />
           </FormItem>
         )}
       /> : <></>}
