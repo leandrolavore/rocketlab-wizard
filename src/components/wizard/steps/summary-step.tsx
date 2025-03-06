@@ -16,12 +16,12 @@ import { Progress } from '@/components/ui/progress';
 
 const SummaryStep = () => {
   const {
-    selectedItems,
+    order,
     getFormattedTotalVolume,
     getFormattedTotalVolumetricWeight,
     getFormattedVolume,
     getFormattedVolumetricWeight,
-    getPriceTotal
+    getFormattedPriceTotal
   } = useItemsCart();
 
   const { currentStepIndex, goToPreviousStep, goBackToStart } = useWizardSteps();
@@ -134,7 +134,7 @@ const SummaryStep = () => {
         <section>
           <h3 className="font-bold text-lg">Items</h3>
           <ul className="space-y-2">
-            {selectedItems.map(item => (
+            {order?.items?.length ? order?.items?.map(item => (
               <li key={item.id} className="border p-2 rounded-md">
                 <p><strong>{item.name}</strong></p>
                 <p>Length: {item.length} cm</p>
@@ -144,7 +144,7 @@ const SummaryStep = () => {
                 <p>Volumetric Weight: {getFormattedVolumetricWeight(item)} kg</p>
                 <p>Price: {getFormattedVolumetricWeight(item)} kg</p>
               </li>
-            ))}
+            )) : <></>}
           </ul>
         </section>
 
@@ -154,7 +154,7 @@ const SummaryStep = () => {
           <h3 className="font-bold text-lg">Totals</h3>
           <p><strong>Total Volume:</strong> {getFormattedTotalVolume()} cm<sup>3</sup></p>
           <p><strong>Total Volumetric Weight:</strong> {getFormattedTotalVolumetricWeight()} kg</p>
-          <p><strong>Total Price:</strong> {getPriceTotal()} AUD</p>
+          <p><strong>Total Price:</strong> {getFormattedPriceTotal()} AUD</p>
         </section>
         <Separator className="my-2" />
         {loading

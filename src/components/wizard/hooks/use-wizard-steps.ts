@@ -8,7 +8,7 @@ export type Step = (typeof steps)[number];
 
 export const useWizardSteps = () => {
   const { currentStepIndex, setCurrentStepIndex, form, setValidSteps } = useWizardForm();
-  const { selectedItems } = useItemsCart();
+  const { order } = useItemsCart();
 
   const currentStep = steps[currentStepIndex];
 
@@ -56,7 +56,7 @@ export const useWizardSteps = () => {
           'destination.country',
         ]);
       case 'items':
-        return !!selectedItems?.length;
+        return !!order?.items?.length;
       case 'summary':
         return true;
     }
