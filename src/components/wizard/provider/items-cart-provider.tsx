@@ -122,6 +122,11 @@ const useItemsCartCore = () => {
     return formatNumber(order.priceTotal);
   }
 
+  function getFormattedPricePerUnit(item: FreightItem) {
+    const rawPrice = (calculateVolumetricWeight(item) * PRICE_CENTS_PER_KG) / 100;
+    return formatNumber(rawPrice);
+  }
+
   function clearCart() {
     setOrder(emptyOrder);
   }
@@ -137,6 +142,7 @@ const useItemsCartCore = () => {
     getFormattedVolume,
     getFormattedVolumetricWeight,
     getFormattedPriceTotal,
+    getFormattedPricePerUnit,
     clearCart,
     calculateVolumetricWeight
   };

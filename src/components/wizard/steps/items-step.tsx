@@ -12,7 +12,7 @@ import { GiCardboardBoxClosed } from "react-icons/gi";
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { useWizardSteps } from '../hooks/use-wizard-steps';
-import { FreightItem, PRICE_CENTS_PER_KG, useItemsCart } from '../provider/items-cart-provider';
+import { FreightItem, useItemsCart } from '../provider/items-cart-provider';
 
 const ItemsStep = () => {
   const { goToPreviousStep, goToNextStep, currentStepIndex } = useWizardSteps();
@@ -72,7 +72,7 @@ const Item = ({ item }: { item: FreightItem }) => {
     removeItemFromOrder,
     getFormattedVolume,
     getFormattedVolumetricWeight,
-    calculateVolumetricWeight
+    getFormattedPricePerUnit
   } = useItemsCart();
 
   const isInOrder = isItemInOrder(item);
@@ -94,7 +94,7 @@ const Item = ({ item }: { item: FreightItem }) => {
         <Separator className="my-1" />
         <p className="text-sm">Volume: {getFormattedVolume(item)}cm³</p>
         <p className="text-sm">Volumetric weight: {getFormattedVolumetricWeight(item)}kg</p>
-        <p className="text-sm">Price per unit: {(calculateVolumetricWeight(item) * PRICE_CENTS_PER_KG) / 100}Aud</p>
+        <p className="text-sm">Price per unit: {getFormattedPricePerUnit(item)}Aud</p>
       </div>
     </Card>
   )
