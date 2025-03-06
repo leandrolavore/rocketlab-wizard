@@ -13,19 +13,20 @@ import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { useWizardSteps } from '../hooks/use-wizard-steps';
 import { Progress } from '@/components/ui/progress';
+import { FaRegEdit } from "react-icons/fa";
 
 const SummaryStep = () => {
   const {
-    selectedItems,
+    order,
     getFormattedTotalVolume,
     getFormattedTotalVolumetricWeight,
     getFormattedVolume,
     getFormattedVolumetricWeight,
-    getPriceTotal
+    getFormattedPriceTotal
   } = useItemsCart();
 
   const { currentStepIndex, goToPreviousStep, goBackToStart } = useWizardSteps();
-  const { resetForm } = useWizardForm();
+  const { resetForm, setCurrentStepIndex } = useWizardForm();
   const { clearCart } = useItemsCart();
 
   const { form } = useWizardForm();
@@ -87,14 +88,17 @@ const SummaryStep = () => {
 
   return (
     <div className='min-w-96'>
-      <CardHeader>
+      <CardHeader className="mb-4">
         <CardTitle>Order Summary</CardTitle>
         <CardDescription>Review your order details before submitting.</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-6 h-96 overflow-y-auto">
         <section>
-          <h3 className="font-bold text-lg">Sender</h3>
+          <div className="flex items-center gap-4">
+            <h3 className="font-bold text-lg">Sender</h3>
+            <FaRegEdit className='cursor-pointer font-bold' onClick={() => setCurrentStepIndex(0)} />
+          </div>
           <p><strong>Name:</strong> {values.sender?.name}</p>
           <p><strong>Email:</strong> {values.sender?.email}</p>
         </section>
@@ -102,7 +106,10 @@ const SummaryStep = () => {
         <Separator className="my-2" />
 
         <section>
-          <h3 className="font-bold text-lg">Receiver</h3>
+          <div className="flex items-center gap-4">
+            <h3 className="font-bold text-lg">Receiver</h3>
+            <FaRegEdit className='cursor-pointer font-bold' onClick={() => setCurrentStepIndex(1)} />
+          </div>
           <p><strong>Name:</strong> {values.receiver?.name}</p>
           <p><strong>Email:</strong> {values.receiver?.email}</p>
         </section>
@@ -110,7 +117,10 @@ const SummaryStep = () => {
         <Separator className="my-2" />
 
         <section>
-          <h3 className="font-bold text-lg">Pickup Address</h3>
+          <div className="flex items-center gap-4">
+            <h3 className="font-bold text-lg">Pickup Address</h3>
+            <FaRegEdit className='cursor-pointer font-bold' onClick={() => setCurrentStepIndex(2)} />
+          </div>
           <p><strong>Address:</strong> {values.pickup?.address_line_1}</p>
           <p><strong>City:</strong> {values.pickup?.city}</p>
           <p><strong>State:</strong> {values.pickup?.state}</p>
@@ -121,7 +131,10 @@ const SummaryStep = () => {
         <Separator className="my-2" />
 
         <section>
-          <h3 className="font-bold text-lg">Destination Address</h3>
+          <div className="flex items-center gap-4">
+            <h3 className="font-bold text-lg">Destination Address</h3>
+            <FaRegEdit className='cursor-pointer font-bold' onClick={() => setCurrentStepIndex(3)} />
+          </div>
           <p><strong>Address:</strong> {values.destination?.address_line_1}</p>
           <p><strong>City:</strong> {values.destination?.city}</p>
           <p><strong>State:</strong> {values.destination?.state}</p>
@@ -132,9 +145,12 @@ const SummaryStep = () => {
         <Separator className="my-2" />
 
         <section>
-          <h3 className="font-bold text-lg">Items</h3>
+          <div className="flex items-center gap-4">
+            <h3 className="font-bold text-lg">Items</h3>
+            <FaRegEdit className='cursor-pointer font-bold' onClick={() => setCurrentStepIndex(4)} />
+          </div>
           <ul className="space-y-2">
-            {selectedItems.map(item => (
+            {order?.items?.length ? order?.items?.map(item => (
               <li key={item.id} className="border p-2 rounded-md">
                 <p><strong>{item.name}</strong></p>
                 <p>Length: {item.length} cm</p>
@@ -142,8 +158,9 @@ const SummaryStep = () => {
                 <p>Depth: {item.depth} cm</p>
                 <p>Volume: {getFormattedVolume(item)} cm<sup>3</sup></p>
                 <p>Volumetric Weight: {getFormattedVolumetricWeight(item)} kg</p>
+                <p>Price: {getFormattedVolumetricWeight(item)} kg</p>
               </li>
-            ))}
+            )) : <></>}
           </ul>
         </section>
 
@@ -153,7 +170,7 @@ const SummaryStep = () => {
           <h3 className="font-bold text-lg">Totals</h3>
           <p><strong>Total Volume:</strong> {getFormattedTotalVolume()} cm<sup>3</sup></p>
           <p><strong>Total Volumetric Weight:</strong> {getFormattedTotalVolumetricWeight()} kg</p>
-          <p><strong>Total Price:</strong> {getPriceTotal()} AUD</p>
+          <p><strong>Total Price:</strong> {getFormattedPriceTotal()} AUD</p>
         </section>
         <Separator className="my-2" />
         {loading

@@ -18,17 +18,17 @@ const ItemsStep = () => {
   const { goToPreviousStep, goToNextStep, currentStepIndex } = useWizardSteps();
   const {
     stock,
-    selectedItems,
+    order,
     getFormattedTotalVolume,
     getFormattedTotalVolumetricWeight,
-    getPriceTotal
+    getFormattedPriceTotal
   } = useItemsCart();
 
   return (
     <div className='min-w-96 min-h-[720px]'>
       <CardHeader>
-        <CardTitle>Pickup</CardTitle>
-        <CardDescription>Enter pickup address</CardDescription>
+        <CardTitle>Items</CardTitle>
+        <CardDescription>Select items</CardDescription>
       </CardHeader>
       <CardContent>
         <div className='grid grid-cols-2 gap-4 mb-4'>
@@ -36,9 +36,9 @@ const ItemsStep = () => {
         </div>
         <Separator className="my-2" />
         <div className="flex flex-col">
-          <p>Total Volume: {getFormattedTotalVolume()}cm³</p>
-          <p>Volumetric weight: {getFormattedTotalVolumetricWeight()}kg</p>
-          <p>Total Freigth Price: {getPriceTotal()} AUD</p>
+          <p><strong>Total Volume:</strong> {getFormattedTotalVolume()}cm³</p>
+          <p><strong>Volumetric weight:</strong>  {getFormattedTotalVolumetricWeight()}kg</p>
+          <p><strong>Total Freigth Price:</strong> {getFormattedPriceTotal()} (4 AUD  X Kg)</p>
         </div>
         <Separator className="my-2" />
         <div className="flex justify-between mt-4">
@@ -54,7 +54,7 @@ const ItemsStep = () => {
           <Button
             type="button"
             className='cursor-pointer'
-            disabled={!selectedItems?.length}
+            disabled={!order?.items?.length}
             onClick={goToNextStep}
           >
             Next
@@ -93,6 +93,7 @@ const Item = ({ item }: { item: FreightItem }) => {
         <Separator className="my-1" />
         <p className="text-sm">Volume: {getFormattedVolume(item)}cm³</p>
         <p className="text-sm">Volumetric weight: {getFormattedVolumetricWeight(item)}kg</p>
+        <p className="text-sm">Price per unit: {getFormattedVolumetricWeight(item)}Aud</p>
       </div>
     </Card>
   )

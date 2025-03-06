@@ -16,11 +16,7 @@ const AutoCompleteInput = ({
     }
   });
 
-  return (
-    <div>=
-      <Input ref={ref} />
-    </div>
-  )
+  return <Input ref={ref} />;
 }
 
 export default AutoCompleteInput;

@@ -11,9 +11,20 @@ export type FreightItem = {
 }
 
 const ItemsCartContext = createContext<ReturnType<typeof useItemsCartCore> | null>(null);
+const emptyOrder: {
+  items: FreightItem[];
+  totalVolume: number;
+  totalVolumetricWeight: number;
+  priceTotal: number;
+} = {
+  items: [],
+  totalVolume: 0,
+  totalVolumetricWeight: 0,
+  priceTotal: 0,
+}
 
 const useItemsCartCore = () => {
-  const [selectedItems, setSelectedItems] = useState<FreightItem[]>([]);
+  const [order, setOrder] = useState(emptyOrder);
 
   const VOLUMETRIC_DIVISOR = 6000;
   const PRICE_CENTS_PER_KG = 400;
@@ -42,30 +53,46 @@ const useItemsCartCore = () => {
     return calculateVolume({ length, height, depth }) / VOLUMETRIC_DIVISOR;
   }
 
-
   function isItemInOrder(item: FreightItem) {
-    return selectedItems.some(selected => selected.id === item.id);
+    return order.items.some(selected => selected.id === item.id);
+  }
+
+  function calculateOrderTotals(items: FreightItem[]) {
+    const totalVolume = items.reduce((sum, item) => sum + calculateVolume(item), 0);
+    const totalVolumetricWeight = items.reduce((sum, item) => sum + calculateVolumetricWeight(item), 0);
+    const priceTotal = (totalVolumetricWeight * PRICE_CENTS_PER_KG) / 100;
+
+    return { totalVolume, totalVolumetricWeight, priceTotal };
   }
 
   function addItemToOrder(item: FreightItem) {
-    setSelectedItems((prev) => {
-      if (isItemInOrder(item)) {
-        return prev;
-      }
-      return [...prev, item];
+    setOrder(prev => {
+      const updatedItems = isItemInOrder(item) ? prev.items : [...prev.items, item];
+      const { totalVolume, totalVolumetricWeight, priceTotal } = calculateOrderTotals(updatedItems);
+
+      return {
+        ...prev,
+        items: updatedItems,
+        totalVolume,
+        totalVolumetricWeight,
+        priceTotal
+      };
     });
   }
 
   function removeItemFromOrder(item: FreightItem) {
-    setSelectedItems((prev) => prev.filter(i => i.id !== item.id));
-  }
+    setOrder(prev => {
+      const updatedItems = prev.items.filter(i => i.id !== item.id);
+      const { totalVolume, totalVolumetricWeight, priceTotal } = calculateOrderTotals(updatedItems);
 
-  function calculateTotalVolume() {
-    return selectedItems.reduce((sum, item) => sum + calculateVolume(item), 0);
-  }
-
-  function calculateTotalVolumetricWeight() {
-    return selectedItems.reduce((sum, item) => sum + calculateVolumetricWeight(item), 0);
+      return {
+        ...prev,
+        items: updatedItems,
+        totalVolume,
+        totalVolumetricWeight,
+        priceTotal
+      };
+    });
   }
 
   function formatNumber(value: number) {
@@ -76,11 +103,11 @@ const useItemsCartCore = () => {
   }
 
   function getFormattedTotalVolume() {
-    return formatNumber(calculateTotalVolume());
+    return formatNumber(order.totalVolume);
   }
 
   function getFormattedTotalVolumetricWeight() {
-    return formatNumber(calculateTotalVolumetricWeight());
+    return formatNumber(order.totalVolumetricWeight);
   }
 
   function getFormattedVolume(item: FreightItem) {
@@ -91,21 +118,17 @@ const useItemsCartCore = () => {
     return formatNumber(calculateVolumetricWeight(item));
   }
 
-  function clearCart() {
-    setSelectedItems([]);
+  function getFormattedPriceTotal() {
+    return formatNumber(order.priceTotal);
   }
 
-  function getPriceTotal() {
-    const volumetricWeight = calculateTotalVolumetricWeight();
-    const totalCents = volumetricWeight * PRICE_CENTS_PER_KG;
-    const totalDollars = totalCents / 100;
-
-    return formatNumber(totalDollars);
+  function clearCart() {
+    setOrder(emptyOrder);
   }
 
   return {
     stock,
-    selectedItems,
+    order,
     addItemToOrder,
     removeItemFromOrder,
     isItemInOrder,
@@ -113,8 +136,8 @@ const useItemsCartCore = () => {
     getFormattedTotalVolumetricWeight,
     getFormattedVolume,
     getFormattedVolumetricWeight,
+    getFormattedPriceTotal,
     clearCart,
-    getPriceTotal
   };
 };
 
