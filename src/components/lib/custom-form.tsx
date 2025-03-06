@@ -19,7 +19,7 @@ import AutoCompleteInput from './auto-complete-input';
 const CustomForm = ({ fields, isAddress = false, onSelectedAddress }: {
   fields: string[];
   isAddress?: boolean;
-  onSelectedAddress: (address: Record<string, string>) => void;
+  onSelectedAddress?: (address: Record<string, string>) => void;
 }) => {
   const form = useFormContext();
   const { currentStepIndex, steps, goToNextStep, goToPreviousStep } = useWizardSteps();
@@ -35,7 +35,7 @@ const CustomForm = ({ fields, isAddress = false, onSelectedAddress }: {
 
   return (
     <Form {...form}>
-      {isAddress ? <FormField
+      {isAddress && onSelectedAddress ? <FormField
         key="pickup.autocomplete"
         control={form.control}
         name="pickup.autocomplete"

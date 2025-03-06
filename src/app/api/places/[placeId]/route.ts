@@ -1,5 +1,8 @@
-export async function GET(req: Request, { params }: { params: { placeId: string } }) {
-  const { placeId } = params;
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ placeId: string }> }
+) {
+  const { placeId } = await params;
 
   const response = await fetch(`https://places.googleapis.com/v1/places/${placeId}`, {
     method: 'GET',
@@ -11,9 +14,8 @@ export async function GET(req: Request, { params }: { params: { placeId: string 
 
   const { addressComponents, formattedAddress } = await response.json();
 
-  console.log("🚀 ~ GET ~ addressComponents:", addressComponents)
   function getComponent(type: string) {
-    return addressComponents.find((c: Record<string, string>) => c.types.includes(type))?.longText || '';
+    return addressComponents.find((c: Record<string, string[]>) => c.types.includes(type))?.longText || '';
   }
 
   return Response.json({
